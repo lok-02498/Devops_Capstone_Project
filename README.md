@@ -1,6 +1,6 @@
 # 🚀 SecureOps: End-to-End Automated DevOps & GitOps Platform
 
-[![CI/CD Pipeline](https://github.com/your-username/Devops_project/actions/workflows/ci-cd.yml/badge.svg)](https://github.com)
+[![CI/CD Pipeline](https://github.com/lok-02498/Devops_Capstone_Project/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/lok-02498/Devops_Capstone_Project/actions)
 [![Docker](https://img.shields.io/badge/Containerized-Docker-blue.svg)](https://www.docker.com/)
 [![Kubernetes](https://img.shields.io/badge/Orchestrated-Kubernetes-326CE5.svg)](https://kubernetes.io/)
 [![Security](https://img.shields.io/badge/Security-Trivy%20%7C%20Bandit-green.svg)](https://aquasecurity.github.io/trivy/)
@@ -64,7 +64,7 @@
 
 ---
 
-## ⚡ Quick Start: Step-by-Step Execution Guide
+## Quick Start: Step-by-Step Execution Guide
 
 ### Step 1: Run Unit Tests Locally
 ```powershell

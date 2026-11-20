@@ -5,9 +5,8 @@
 **Course:** B.Tech Computer Science & Engineering (Final Year)  
 **Submission Portal:** ZOSIMA  
 **Academic Year:** 2026-2027  
-**Student Name(s):** [Insert Student Name(s)]  
-**Roll Number(s):** [Insert Roll Number(s)]  
-**GitHub Repository Link:** [Insert Public GitHub Repository URL]  
+**Student Name(s):** Lokesh Deshwal  
+**GitHub Repository Link:** https://github.com/lok-02498/Devops_Capstone_Project  
 
 ---
 
