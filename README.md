@@ -1,4 +1,4 @@
-# 🚀 SecureOps: End-to-End Automated DevOps & GitOps Platform
+#  SecureOps: End-to-End Automated DevOps & GitOps Platform
 
 [![CI/CD Pipeline](https://github.com/lok-02498/Devops_Capstone_Project/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/lok-02498/Devops_Capstone_Project/actions)
 [![Docker](https://img.shields.io/badge/Containerized-Docker-blue.svg)](https://www.docker.com/)
@@ -8,12 +8,12 @@
 
 ---
 
-## 📌 Executive Summary
+##  Executive Summary
 **SecureOps** is an enterprise-grade, end-to-end DevOps automation platform designed for modern cloud-native applications. It automates the software delivery lifecycle from code commit to zero-downtime production deployment with built-in security (DevSecOps), infrastructure as code (IaC), container orchestration, observability, and automated disaster recovery.
 
 ---
 
-## 🏗️ High-Level System Architecture
+##  High-Level System Architecture
 
 ```text
   Developer Push
@@ -47,7 +47,7 @@
 
 ---
 
-## 🧰 Technology Stack
+##  Technology Stack
 
 | Domain | Technology / Tool | Implementation Purpose |
 | :--- | :--- | :--- |
@@ -140,7 +140,7 @@ Take screenshots at each of the following milestone steps for your capstone docu
 
 ---
 
-## 📁 Repository Directory Structure
+##  Repository Directory Structure
 
 ```text
 Devops_project/
