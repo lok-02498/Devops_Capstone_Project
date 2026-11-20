@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest
+.pytest_cache/
+
+# SQLite runtime DB
+tasks.db
+
+# Terraform runtime
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Environments
+.env
+.venv
+env/
+venv/
