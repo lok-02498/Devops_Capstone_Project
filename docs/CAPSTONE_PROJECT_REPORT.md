@@ -5,8 +5,8 @@
 **Course:** B.Tech Computer Science & Engineering (Final Year)  
 **Submission Portal:** ZOSIMA  
 **Academic Year:** 2026-2027  
-**Student Name(s):** Lokesh Deshwal  
-**GitHub Repository Link:** https://github.com/lok-02498/Devops_Capstone_Project  
+**Student Name:** Lokesh Deshwal  
+**GitHub Repository Link:** [https://github.com/lok-02498/Devops_Capstone_Project](https://github.com/lok-02498/Devops_Capstone_Project)  
 
 ---
 
@@ -49,9 +49,9 @@ To design, implement, and validate an enterprise-grade, automated DevOps platfor
 +-----------------------------------------------------------------------------------+
 |                           CI/CD PIPELINE (GITHUB ACTIONS)                         |
 |                                                                                   |
-|  [ Stage 1: Pytest & Flake8 ]  --->  [ Stage 2: Bandit SAST & Trivy Container ]   |
+|  [ Stage 1: Pytest & Flake8 ]  --->  [ Stage 2: Bandit SAST & Trivy Scan ]        |
 |                                                      |                            |
-|  [ Stage 4: K8s Validation ]    <---  [ Stage 3: Multi-Stage Docker Buildx ]       |
+|  [ Stage 4: Kubeconform Check ] <---  [ Stage 3: Multi-Stage Docker Buildx ]      |
 +-----------------------------------------------------------------------------------+
                                        |
                                ( GitOps Deploy )
@@ -103,16 +103,16 @@ A lightweight, cloud-native REST application built in Python Flask:
 
 ### 3.2 Secure Multi-Stage Docker Packaging (`Dockerfile`)
 - **Stage 1 (Builder):** Uses `python:3.11-slim` with GCC to install and compile Python dependencies into `/install`.
-- **Stage 2 (Runner):** Copies compiled binaries only, dropping build compilers to minimize image size and CVE attack surface.
+- **Stage 2 (Runner):** Copies compiled binaries only, dropping build compilers to minimize image size (53 MB) and CVE attack surface.
 - **Security Hardening:** Enforces non-root execution by creating `appuser` (UID 10001) and restricting file permissions.
 
 ### 3.3 Continuous Integration & DevSecOps Pipeline (`.github/workflows/ci-cd.yml`)
 1. **Lint & Test:** Runs `flake8` to enforce PEP8 standards and `pytest` for unit test suites.
 2. **SAST & Vulnerability Scanning:** 
-   - `bandit` scans for common security vulnerabilities (e.g., shell injection, weak cryptography).
-   - `trivy` scans the newly built Docker image against known CVE databases.
-3. **Container Build:** Uses `docker/build-push-action` with layer caching.
-4. **Kubernetes Validation:** Runs `kubectl --dry-run=client` across all manifests to prevent syntax errors during production release.
+   - `bandit` scans for security vulnerabilities in source code.
+   - `trivy` scans the container image against official CVE vulnerability databases.
+3. **Container Build:** Uses `docker/build-push-action` with Docker Buildx.
+4. **Kubernetes Validation:** Uses CNCF `kubeconform` to validate all Kubernetes manifests against upstream OpenAPI schemas offline.
 
 ### 3.4 Infrastructure as Code (`terraform/`)
 - Declaratively provisions the target production namespace (`secureops-prod`).
@@ -126,69 +126,82 @@ A lightweight, cloud-native REST application built in Python Flask:
 
 ## 4. Testing, Evidence & Verification Results
 
-*(Insert your captured screenshots in the respective sections below)*
-
 ### 4.1 Unit Testing & Code Verification
-- **Test Tool:** Pytest
+- **Test Framework:** Pytest
 - **Scope:** Dashboard rendering, liveness probe, readiness probe, CRUD REST API, Prometheus exporter format.
-- **Result:** 5 passed in 0.33s.
+- **Outcome:** 5 passed in 0.28 seconds.
 
-> **[SCREENSHOT 1: Terminal output of Pytest showing 5 passing tests]**  
-> `python -m pytest tests/ -v`
+![Pytest Test Results](./screenshots/01_unit_tests.jpg)  
+*Figure 4.1: Terminal output of automated Pytest regression test suite with 100% passing rate.*
 
 ---
 
 ### 4.2 Local Multi-Container Deployment (Docker Compose)
-- **Scope:** Application and Prometheus container running in isolated bridge network.
-- **Ports:** Application on `5000`, Prometheus on `9090`.
+- **Scope:** Isolated multi-container environment running `secureops-app` and `secureops-prometheus`.
+- **Ports:** Application exposed on `5000`, Prometheus on `9090`.
 
-> **[SCREENSHOT 2: Terminal output of `docker compose ps` showing healthy running containers]**  
+![Docker Compose PS](./screenshots/02_docker_compose_ps.png)  
+*Figure 4.2: Docker Compose status confirming healthy container states for application and telemetry.*
 
-> **[SCREENSHOT 3: Browser view of the Application Dashboard at `http://localhost:5000`]**  
-
----
-
-### 4.3 DevSecOps Security Auditing (Bandit & Trivy)
-- **Scope:** Vulnerability analysis of source code and container image.
-- **Outcome:** Zero critical CVEs detected; non-root user verification passed.
-
-> **[SCREENSHOT 4: Security scan terminal output (Bandit / Trivy CVE audit)]**  
+![Docker Compose UI](./screenshots/03_docker_compose_ui.png)  
+*Figure 4.3: SecureOps Operations Dashboard running in local Docker Compose with task persistence verified.*
 
 ---
 
-### 4.4 Automated CI/CD Pipeline Execution (GitHub Actions)
-- **Scope:** Visual demonstration of the 4-stage pipeline passing successfully on GitHub.
+### 4.3 Kubernetes Workload Orchestration & Self-Healing Probes
+- **Scope:** Application deployment in `devops-capstone` cluster under `secureops-prod` namespace.
+- **NodePort Service:** Port `30080` mapped to host machine.
 
-> **[SCREENSHOT 5: GitHub Actions UI showing all 4 workflow jobs with green checks]**  
+![Kubernetes Workload Dashboard](./screenshots/04_k8s_ui.png)  
+*Figure 4.4: Web application running natively on Kubernetes Pod `secureops-app-v1-5486f8bf4-wq5hn`.*
 
----
+![Liveness Probe](./screenshots/05_k8s_liveness_probe.png)  
+*Figure 4.5: Kubernetes Liveness Probe (`/health/live`) returning HTTP 200 UP with Pod Hostname.*
 
-### 4.5 Kubernetes Workload Orchestration & Self-Healing
-- **Scope:** Verification of Kubernetes pods, services, and HPA in the `secureops-prod` namespace.
-
-> **[SCREENSHOT 6: Terminal output of `kubectl get all -n secureops-prod`]**  
-
----
-
-### 4.6 Advanced Canary Traffic Splitting & Rollback
-- **Scope:** Execution of the automated traffic evaluation script (`test-canary.ps1`) confirming 75% traffic to Stable and 25% to Canary.
-
-> **[SCREENSHOT 7: Terminal output of `test-canary.ps1` summary report showing traffic ratio]**  
+![Readiness Probe](./screenshots/06_k8s_readiness_probe.png)  
+*Figure 4.6: Kubernetes Readiness Probe (`/health/ready`) confirming database connectivity.*
 
 ---
 
-### 4.7 Observability & Metric Telemetry (Prometheus)
-- **Scope:** Querying application metrics in Prometheus UI.
-- **Query:** `http_requests_total` and `http_request_duration_seconds_bucket`.
+### 4.4 Advanced Canary Traffic Splitting Verification
+- **Scope:** Automated traffic evaluation script (`test-canary.ps1`) executing 20 progressive requests against NodePort `30080`.
+- **Target Distribution:** 75% Stable (v1.0.0) / 25% Canary (v2.0.0-canary).
+- **Result:** Exactly 15 requests (75%) served by Stable, 5 requests (25%) served by Canary.
 
-> **[SCREENSHOT 8: Browser view of Prometheus dashboard at `http://localhost:9090` showing metrics graph]**  
+![Canary Traffic Split](./screenshots/07_canary_traffic_split.jpg)  
+*Figure 4.7: Automated Canary verification script confirming exact 75% / 25% progressive traffic split.*
 
 ---
 
-### 4.8 Infrastructure as Code Provisioning (Terraform)
-- **Scope:** Execution of `terraform apply` confirming infrastructure creation.
+### 4.5 Infrastructure as Code Provisioning (Terraform)
+- **Scope:** Declarative state enforcement using `hashicorp/kubernetes` provider.
+- **Outcome:** Managed namespace (`secureops-terraform-prod`), ConfigMap (`secureops-config-tf`), and Secret (`secureops-secrets-tf`).
 
-> **[SCREENSHOT 9: Terminal output of `terraform apply` showing resource creation]**  
+![Terraform Apply](./screenshots/08_terraform_apply.jpg)  
+*Figure 4.8: Terraform plan and apply execution confirming zero configuration drift.*
+
+---
+
+### 4.6 Observability & Metric Telemetry (Prometheus)
+- **Scope:** Real-time metrics collection querying `http_requests_total`.
+- **Scrape Interval:** 5 seconds via `/metrics` endpoint.
+
+![Prometheus Metrics Graph](./screenshots/09_prometheus_metrics.png)  
+*Figure 4.9: Prometheus time-series graph displaying real-time HTTP traffic and request volume across endpoints.*
+
+---
+
+### 4.7 Automated CI/CD Pipeline Execution (GitHub Actions)
+- **Workflow:** `.github/workflows/ci-cd.yml`
+- **Stages Executed:**
+  1. `Quality Check & Unit Tests` (11s)
+  2. `DevSecOps Security Scan` (37s)
+  3. `Docker Build & Container Packaging` (28s)
+  4. `Kubernetes Manifest Validation` (8s)
+- **Status:** All 4 jobs completed successfully with green checkmarks in 1m 37s.
+
+![GitHub Actions 4-Stage Pipeline](./screenshots/10_github_actions_pipeline.png)  
+*Figure 4.10: GitHub Actions pipeline visual DAG showing all 4 continuous delivery stages passing successfully.*
 
 ---
 
@@ -206,7 +219,7 @@ A lightweight, cloud-native REST application built in Python Flask:
 ## 6. Conclusion & Future Enhancements
 
 ### 6.1 Project Conclusion
-The SecureOps project demonstrates a complete, reproducible, and production-ready DevOps automation platform. By integrating modern version control, multi-stage container optimization, DevSecOps security gates, automated CI/CD pipelines, Kubernetes orchestration, progressive canary delivery, and Prometheus telemetry, the project eliminates manual operational friction and achieves continuous, reliable software delivery.
+The SecureOps platform demonstrates a complete, reproducible, and production-ready DevOps automation architecture. By integrating modern version control, multi-stage container optimization, DevSecOps security gates, automated CI/CD pipelines, Kubernetes orchestration, progressive canary delivery, and Prometheus telemetry, the project eliminates manual operational friction and achieves continuous, reliable software delivery.
 
 ### 6.2 Future Enhancements
 - Integration of ArgoCD for full declarative GitOps continuous synchronization.
