@@ -1,0 +1,15 @@
+.git
+.github
+.pytest_cache
+tests
+docs
+terraform
+*.md
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+env/
+venv/
