@@ -1,0 +1,115 @@
+name: SecureOps End-to-End CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  # ==========================================
+  # STAGE 1: Code Quality & Unit Testing
+  # ==========================================
+  test:
+    name: 🧪 Quality Check & Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python Runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Application Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r app/requirements.txt
+          pip install flake8 bandit
+
+      - name: Code Linting (Flake8)
+        run: |
+          flake8 app/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Run Automated Unit Tests (Pytest)
+        run: |
+          python -m pytest tests/ -v --junitxml=test-results.xml
+
+  # ==========================================
+  # STAGE 2: DevSecOps Security Auditing
+  # ==========================================
+  security-audit:
+    name: 🛡️ DevSecOps Security Scan
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: SAST Security Scan (Bandit)
+        run: |
+          pip install bandit
+          bandit -r app/ -ll -ii || true
+
+      - name: Build Local Container Image for Scanning
+        run: |
+          docker build -t secureops-platform:${{ github.sha }} .
+
+      - name: Trivy Container Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'secureops-platform:${{ github.sha }}'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+  # ==========================================
+  # STAGE 3: Build & Artifact Packaging
+  # ==========================================
+  build-and-package:
+    name: 🐳 Docker Build & Container Packaging
+    needs: security-audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Multi-Stage Production Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false # Set to true with Docker Hub credentials if pushing to public registry
+          tags: |
+            secureops-platform:latest
+            secureops-platform:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ==========================================
+  # STAGE 4: Kubernetes Deployment Validation
+  # ==========================================
+  kubernetes-validation:
+    name: ☸️ Kubernetes Manifest Validation (Dry-Run)
+    needs: build-and-package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Validate Kubernetes Manifests
+        run: |
+          echo "Validating Kubernetes YAML syntax..."
+          kubectl apply --dry-run=client -f k8s/base/namespace.yaml
+          kubectl apply --dry-run=client -f k8s/base/configmap-secrets.yaml
+          kubectl apply --dry-run=client -f k8s/base/deployment.yaml
+          kubectl apply --dry-run=client -f k8s/base/service.yaml
+          kubectl apply --dry-run=client -f k8s/base/hpa.yaml
+          echo "All Kubernetes manifests successfully validated!"
