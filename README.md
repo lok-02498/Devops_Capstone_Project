@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 SecureOps: Cloud-Native DevOps Delivery Platform
+#  SecureOps: Cloud-Native DevOps Delivery Platform
 ### End-to-End GitOps, CI/CD, Containerization, Kubernetes Orchestration & Telemetry
 
 [![CI/CD Pipeline](https://github.com/lok-02498/Devops_Capstone_Project/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/lok-02498/Devops_Capstone_Project/actions)
@@ -19,7 +19,7 @@
 
 </div>
 
-## 📌 Executive Summary
+##  Executive Summary
 
 Modern enterprise software delivery requires eliminating operational silos between developers and operators. **SecureOps** is an automated, end-to-end cloud-native platform engineered to automate the full delivery lifecycle—from code commit to zero-downtime production deployment.
 
@@ -35,7 +35,7 @@ The platform integrates:
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ```text
   Developer Git Push
@@ -71,7 +71,7 @@ The platform integrates:
 
 ---
 
-## 🧰 Technology Matrix
+##  Technology Matrix
 
 | Domain | Technology / Tool | Version | Implementation Role |
 | :--- | :--- | :--- | :--- |
@@ -88,7 +88,7 @@ The platform integrates:
 
 ---
 
-## ⚡ Quick Start Execution Guide
+##  Quick Start Execution Guide
 
 ### 1. Run Unit Tests Locally
 ```powershell
@@ -130,7 +130,7 @@ Access the application on Kubernetes NodePort: [http://localhost:30080](http://l
 
 ---
 
-## 🚦 Advanced Deployment Strategy: Canary Releases
+##  Advanced Deployment Strategy: Canary Releases
 
 The platform uses progressive Canary deployments to eliminate deployment risk:
 - **Stable Deployment (`secureops-app-v1`):** 3 replicas (75% traffic)
@@ -169,7 +169,7 @@ kubectl scale deployment secureops-app-v2-canary -n secureops-prod --replicas=0
 
 ---
 
-## 🛠️ Infrastructure as Code (Terraform)
+## Infrastructure as Code (Terraform)
 
 Manage Kubernetes namespaces, configuration maps, and secrets declaratively:
 ```powershell
@@ -196,7 +196,7 @@ terraform apply -auto-approve
 
 ---
 
-## 📁 Repository Directory Structure
+##  Repository Directory Structure
 
 ```text
 Devops_Capstone_Project/
@@ -237,10 +237,10 @@ Devops_Capstone_Project/
 
 ---
 
-## 📄 Capstone Report (ZOSIMA)
+##  Capstone Report (ZOSIMA)
 
 The complete formal academic document is available at:  
-👉 **[`docs/CAPSTONE_PROJECT_REPORT.md`](docs/CAPSTONE_PROJECT_REPORT.md)**
+ **[`docs/CAPSTONE_PROJECT_REPORT.md`](docs/CAPSTONE_PROJECT_REPORT.md)**
 
 It covers:
 1. Problem Statement & Motivation
@@ -252,7 +252,7 @@ It covers:
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 - **Student Name:** Lokesh Deshwal
 - **Course:** B.Tech Computer Science & Engineering (Final Year)
