@@ -3,9 +3,9 @@
 ## **SecureOps: Automated End-to-End Cloud-Native Delivery Platform with Integrated DevSecOps, Kubernetes Orchestration & Telemetry**
 
 **Course:** B.Tech Computer Science & Engineering (Final Year)  
-**Submission Portal:** ZOSIMA  
-**Academic Year:** 2026-2027  
+**Academic Year:** 2023-2027
 **Student Name:** Lokesh Deshwal  
+**Roll-NO:** 2401421062
 **GitHub Repository Link:** [https://github.com/lok-02498/Devops_Capstone_Project](https://github.com/lok-02498/Devops_Capstone_Project)  
 
 ---
