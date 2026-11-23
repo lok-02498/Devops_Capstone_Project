@@ -252,9 +252,9 @@ It covers:
 
 ---
 
-##  Author
+##  Authors
 
-- **Student Name:** Lokesh Deshwal
+- **Student Name:** Lokesh Deshwal, Harshit Chauhan, Yatharth Chopra.
 - **Course:** B.Tech Computer Science & Engineering (Final Year)
 - **Repository:** [https://github.com/lok-02498/Devops_Capstone_Project](https://github.com/lok-02498/Devops_Capstone_Project)
 - **Academic Year:** 2026-2027
